@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+
+<head>
+    <title>Listar profissionais</title>
+    <meta charset="UTF-8" />
+    <link href="/css/lista.css" rel="stylesheet"/>
+</head>
+
+<body>
+    <div layout:fragment="corpo" class="d-flex justify-content-between flex-wrap">
+        <aside>
+            <form class="row g-3 align-items-center" method="GET" action="/profissionais/buscar/nome">
+                <div class="col-8">
+                    <input class="form-control me-2" type="search" placeholder="Pesquisar por nome..."
+                        aria-label="Search" name="nome" />
+                </div>
+                <div class="col-4">
+                    <button class="btn btn-outline-success" type="submit">Pesquisar</button>
+                </div>
+            </form>
+            <br>
+            <form class="row g-3 align-items-center" method="GET"
+                action="/profissionais/buscar/profissao">
+                <div class="col-8">
+                    <select class="form-control me-2" aria-label="Search" name="profissao">
+                        <option selected disabled>Pesquisar por profissão</option>
+                        <option value="Médico">Médico</option>
+                        <option value="Psicólogo">Psicólogo</option>
+                        <option value="Dentista">Dentista</option>
+                    </select>
+                </div>
+                <div class="col-4">
+                    <button class="btn btn-outline-success" type="submit">Pesquisar</button>
+                </div>
+            </form>
+            <br>
+            <form class="row g-3 align-items-center" method="GET" action="/profissionais/buscar/sexo">
+                <div class="col-8">
+                    <select class="form-control me-2" aria-label="Search" name="sexo">
+                        <option selected disabled>Pesquisar por sexo</option>
+                        <option value="M">Masculino</option>
+                        <option value="F">Feminino</option>
+                    </select>
+                </div>
+                <div class="col-4">
+                    <button class="btn btn-outline-success" type="submit">Pesquisar</button>
+                </div>
+            </form>
+        </aside>
+        <section class="layout-content">
+            <div class="container" id="listagem">
+                <div class="lista">
+                    <div th:each="p: ${profissionais}">
+                        <div class="row">
+                            <div class="col-4">
+                                <img class="profile" th:if="${p.pathFoto != null}" th:src="@{${p.pathFoto}}"
+                                    width="120px" height="120px" />
+                                <img class="profile" th:unless="${p.pathFoto != null}" src="/img/profile_doctor.png"
+                                    width="120px" height="120px" />
+                            </div>
+                            <div class="col-4">
+                                <p th:text="${p.nome} + ' - ' + ${p.registro}">Nome e CRM não encontrados.</p><br>
+                                <p th:text="${p.profissao} + ${p.converterEspec}">...</p>
+                            </div>
+                            <div class="col-4">
+                                <a th:href="@{/consultas/consultar/{cpf} (cpf = ${p.cpf})}" class="btn">
+                                    <span th:text="'Marcar consulta com ' + ${p.nome}"></span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <p>mais informações</p><br>
+                            <p th:text="'Email: ' + ${p.email}">...</p>
+                        </div>
+                        <hr>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+
+</html>

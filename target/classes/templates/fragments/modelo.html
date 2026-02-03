@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+    <title>Clínica Hospitalar de São Paulo</title>
+    <meta charset="UTF-8" />
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg bg-body-tertiary">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">Centro Hospitalar de São Paulo</a>
+                <a class="nav-link" aria-current="page" href="/.">Página Inicial</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/profissionais/listar">Equipe</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/consultas/cadastrar">Agendar consulta</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                Cadastrar
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="/profissionais/cadastrar">Sou um profissional</a>
+                                </li>
+                                <li><a class="dropdown-item" href="/pacientes/cadastrar">Sou paciente</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Login</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <section class="layout-content"></section>
+    <footer class="layout-footer">
+        <div class="container">
+            <span class="footer-copy">&copy; 2024 - DSW3<span>
+        </div>
+    </footer>
+</body>
+
+</html>

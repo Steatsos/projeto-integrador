@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+
+<head>
+  <title>Cadastrar profissional</title>
+  <meta charset="UTF-8" />
+</head>
+
+<body>
+  <div layout:fragment="corpo">
+    <section class="layout-content">
+
+      <div class="container" id="cadastro">
+
+        <div th:replace="~{fragments/alert :: alert}"></div>
+
+        <form th:action="${profissional.cpf == null} ? @{/profissionais/salvar} : @{/profissionais/editar}"
+          th:object="${profissional}" method="post" enctype="multipart/form-data">
+
+          <div class="mb-3">
+            <label for="cpf" class="form-label">CPF</label>
+            <input type="text" class="form-control" aria-describedby="cpfHelp" id="cpf" th:field="(*{cpf})" required>
+            <div id="cpfHelp" class="form-text">
+              Escreva sem pontos ou hífen. Exemplo: 12345678901.
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="nome" class="form-label">Nome</label>
+            <input type="text" class="form-control" id="nome" th:field="(*{nome})" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="senha" class="form-label">Senha</label>
+            <input type="password" id="senha" class="form-control" aria-describedby="passwordHelp" th:field="(*{senha})"
+              required>
+            <div id="passwordHelp" class="form-text">
+              Sua senha deve ter de 8 a 20 caracteres, conter letras e números.
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="radio" class="form-label">Sexo</label>
+            <div class="form-check" name="radio">
+              <input class="form-check-input" type="radio" value="M" name="feminino" id="masculino"
+                th:field="(*{sexo})">
+              <label class="form-check-label" for="masculino">
+                Masculino
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" value="F" name="feminino" id="feminino" th:field="(*{sexo})">
+              <label class="form-check-label" for="feminino">
+                Feminino
+              </label>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="text" class="form-control" id="email" placeholder="nome@example.com" th:field="(*{email})" />
+          </div>
+
+          <div class="mb-3">
+            <label for="profissao" class="form-label">Profissão</label>
+            <select class="form-select" id="profissao" th:field="(*{profissao})">
+              <option value="Médico">Médico</option>
+              <option value="Psicólogo">Psicólogo</option>
+              <option value="Dentista">Dentista</option>
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label for="espec" class="form-label">Especialização</label>
+            <select class="form-select" id="espec" aria-describedby="especHelp" th:field="(*{especializacao})">
+              <option value="">Sem especialização médica</option>
+              <option value="Clínica Geral">Clínica Geral</option>
+              <option value="Pediatria">Pediatria</option>
+              <option value="Cirurgia Geral">Cirurgia Geral</option>
+              <option value="Ginecologia">Ginecologia</option>
+              <option value="Anestesiologia">Anestesiologia</option>
+              <option value="Ortopedia">Ortopedia</option>
+              <option value="Cardiologia">Cardiologia</option>
+              <option value="Traumatologia">Traumatologia</option>
+              <option value="Radiologia">Radiologia</option>
+              <option value="Psiquiatria">Psiquiatria</option>
+              <option value="Obstetrícia">Obstetrícia</option>
+              <option value="Urologia">Urologia</option>
+              <option value="Neurologia">Neurologia</option>
+              <option value="Toxicologia">Toxicologia</option>
+              <option value="Geriatria">Geriatria</option>
+              <option value="Oftalmologia">Oftalmologia</option>
+              <option value="Endocrinologia">Endocrinologia</option>
+            </select>
+            <div id="especHelp" class="form-text">
+              Se não selecionou médico no campo anterior, selecione a opção "Sem especialização médica" neste campo.
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="registro" class="form-label">Registro</label>
+            <div class="input-group" name="registro">
+              <select class="form-select" name="cod">
+                <option value="CRM" selected>CRM</option>
+                <option value="CRP">CRP</option>
+                <option value="CRO">CRO</option>
+              </select>
+
+              <select class="form-select" name="uf">
+                <option value="">UF</option>
+                <option value="AC">AC</option>
+                <option value="AL">AL</option>
+                <option value="AM">AM</option>
+                <option value="AP">AP</option>
+                <option value="BA">BA</option>
+                <option value="CE">CE</option>
+                <option value="DF">DF</option>
+                <option value="ES">ES</option>
+                <option value="MA">MA</option>
+                <option value="MT">MT</option>
+                <option value="MS">MS</option>
+                <option value="MG">MG</option>
+                <option value="PA">PA</option>
+                <option value="PB">PB</option>
+                <option value="PR">PR</option>
+                <option value="PE">PE</option>
+                <option value="PI">PI</option>
+                <option value="RJ">RJ</option>
+                <option value="RN">RN</option>
+                <option value="RS">RS</option>
+                <option value="RO">RO</option>
+                <option value="RR">RR</option>
+                <option value="SC">SC</option>
+                <option value="SP">SP</option>
+                <option value="SE">SE</option>
+                <option value="TO">TO</option>
+              </select>
+
+              <input type="text" class="form-control" aria-describedby="registroHelp" placeholder="123456" name="reg"
+                required>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="foto" class="form-label">Foto de perfil</label>
+            <input type="file" id="foto" name="foto" class="form-control" aria-describedby="fotoHelp">
+            <div id="fotoHelp" class="form-text">
+              A foto deve ter um tamanho menor que 5MB.
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-sm" name="op" value="Salvar">Salvar</button>
+        </form>
+      </div>
+    </section>
+  </div>
+</body>
+
+</html>

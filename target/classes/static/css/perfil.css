@@ -1,0 +1,19 @@
+section {
+    padding: 80px;
+}
+
+.list-group {
+    background-color: #fcfcfc;
+    margin: 5px 20%;
+}
+
+.profile {
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+@media(max-width: 1000px){
+    .list-group {
+        margin: 5px 0;
+    }
+   }

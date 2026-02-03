@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org"
+    xmlns:layout="http://ultraq.net.nz/thymeleaf/layout">
+
+<head>
+    <title>Clínica Hospitalar de São Paulo</title>
+    <meta charset="UTF-8" />
+</head>
+
+<body>
+    <header th:fragment="cabecalho">
+        <a class="navbar-brand float-start" href="#"><img src="img/IGUEA.png" height="130px"></a>
+        <nav class="navbar navbar-expand-lg">
+            <div class="container-fluid">
+                <a class="nav-link" aria-current="page" href="/.">Página Inicial</a>
+                <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                    <ul class="navbar-nav d-flex justify-content-between">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/profissionais/listar">Equipe</a>
+                        </li>
+                        <li th:if="${username != null}" class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                Consultas
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="/consultas/cadastrar">Agendar</a>
+                                </li>
+                                <li><a class="dropdown-item" href="/consultas/listar">Ver consultas</a></li>
+                            </ul>
+                        </li>
+                        <li  th:if="${username == null}" class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                Cadastrar
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="/profissionais/cadastrar">Sou um profissional</a>
+                                </li>
+                                <li><a class="dropdown-item" href="/pacientes/cadastrar">Sou paciente</a></li>
+                            </ul>
+                        </li>
+
+                    </ul>
+                </div>
+                <div th:if="${username == null}" class="nav-item ms-auto p-3">
+                    <a class="css-btn azul" href="@{/login}">Login</a>
+                </div>
+                <div th:if="${username != null}" class="nav-item ms-auto p-3 d-flex">
+                    <a class="p-2" th:if="${user.getClass().getSimpleName() == 'Paciente'}" href="/pacientes/perfil">
+                        <img class="profile" th:if="${user.pathFoto != null}" width="50px" height="50px" th:src="@{${user.pathFoto}}">
+                        <img class="profile" th:unless="${user.pathFoto != null}" width="50px" height="50px" src="/img/profile_default.png">
+                    </a>
+                    <a class="p-2" th:unless="${user.getClass().getSimpleName() == 'Paciente'}" href="/profissionais/perfil">
+                        <img class="profile" th:if="${user.pathFoto != null}" width="50px" height="50px" th:src="@{${user.pathFoto}}">
+                        <img class="profile" th:unless="${user.pathFoto != null}" width="50px" height="50px" src="/img/profile_doctor.png">
+                    </a>
+                    <form th:action="@{/logout}" method="post">
+                        <button type="submit" class="css-btn vermelho">Logout</a>
+                    </form>
+                </div>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+        </nav>
+    </header>
+</body>
+
+</html>

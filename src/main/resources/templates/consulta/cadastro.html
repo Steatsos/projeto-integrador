@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+
+<head>
+    <title>Cadastrar consulta</title>
+    <meta charset="UTF-8" />
+</head>
+
+<body>
+    <div layout:fragment="corpo">
+        <section class="layout-content">
+            <div class="container" id="cadastro">
+                <div th:replace="~{fragments/alert :: alert}"></div>
+                <form th:action="${consulta.id == null} ? @{/consultas/salvar} : @{/consultas/editar}"
+                    th:object="${consulta}" method="POST" class="needs-validation" novalidate>
+
+                    <div class="mb-3">
+                        <label for="paciente" class="form-label">Paciente</label>
+                        <select class="form-select" id="paciente" th:field="(*{paciente})" required>
+                            <option th:value="${user.cpf}" th:selected="${user}"
+                                th:text="${user.nome + ' / ' + user.cpf}">Nome
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="profissional" class="form-label">Selecionar profissional</label>
+                        <select class="form-select" id="profissional" th:field="(*{profissional})" required>
+                            <option value="" disabled>Selecione</option>
+                            <option th:each="p : ${profissionais}" th:value="${p.cpf}"
+                                th:selected="${p == consulta.profissional}"
+                                th:text="${p.nome + ' - ' + p.profissao + p.converterEspec}">Nome</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="date" class="form-label">Data da consulta</label>
+                        <div class="input-group" name="date">
+                            <input type="date" class="form-control" name="data">
+                            <input type="time" class="form-control" name="hora">
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="motivo" class="form-label">Motivo da consulta</label>
+                        <textarea type="text" id="motivo" class="form-control" th:field="(*{motivo})"
+                            placeholder="Escreva o motivo da sua consulta em breves palavras. Exemplo: sintomas, etc..."></textarea>
+                    </div>
+
+                    <input type="hidden" id="id" th:field="*{id}" />
+                    <input type="hidden" id="concluida" th:field="*{concluida}" value="false" />
+
+                    <button type="submit" class="btn btn-primary btn-sm" name="op" value="Salvar">Salvar</button>
+                </form>
+            </div>
+        </section>
+    </div>
+</body>
+
+</html>

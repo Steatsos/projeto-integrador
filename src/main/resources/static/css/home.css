@@ -1,0 +1,61 @@
+/*STYLE.CSS JÁ TEM:
+* * (tudo);
+* header;
+* body;
+* footer;
+*/
+
+/* Container principal */
+.container {
+    width: 80%;
+    margin: 0 auto;
+}
+
+/* Navegação */
+nav ul {
+    list-style: none;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline;
+    margin: 0 15px;
+}
+
+nav ul li a {
+    color: #f3efef;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+nav ul li a:hover {
+    text-decoration: underline;
+}
+
+/* Seção principal */
+main {
+    padding: 20px 0;
+}
+
+section {
+    margin-bottom: 40px;
+    justify-content: center;
+    align-items: center;
+}
+.container2{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    justify-items: center; 
+    gap: 20px; 
+    height:auto; 
+    align-items: center; 
+    margin: 20px;
+    padding: 20pz;
+}
+.carousel-item{
+    object-fit: cover;
+}
+
+h5, p{
+    color: black;
+}

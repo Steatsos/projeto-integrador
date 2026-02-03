@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+
+<head>
+    <title>Login</title>
+    <meta charset="UTF-8" />
+</head>
+
+<body>
+    <div layout:fragment="corpo">
+        <section class="layout-content">
+            <div class="container" id="cadastro">
+                <div th:replace="~{fragments/alert :: alert}"></div>
+                <form th:action="@{/login}" method="POST">
+
+                    <div class="mb-3">
+                        <label for="cpf" class="form-label">CPF</label>
+                        <input type="text" class="form-control" aria-describedby="cpfHelp" id="cpf" name="username"
+                            required>
+                        <div id="cpfHelp" class="form-text">
+                            Escreva sem pontos ou hífen. Exemplo: 12345678901.
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="senha" class="form-label">Senha</label>
+                        <input type="password" id="senha" class="form-control" name="password" required>
+                    </div>
+
+                    <!--<div class="form-check">
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked>
+                        <label class="form-check-label" for="flexRadioDefault1">
+                            Sou Paciente
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2">
+                        <label class="form-check-label" for="flexRadioDefault2">
+                            Sou Profissional
+                        </label>
+                    </div>-->
+
+                    <button type="submit" class="btn btn-primary btn-sm" name="op" >Login</button>
+                </form>
+            </div>
+        </section>
+    </div>
+</body>
+
+</html>

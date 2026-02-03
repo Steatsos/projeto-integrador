@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+
+<head>
+    <title>Seu perfil</title>
+    <meta charset="UTF-8" />
+    <link href="/css/perfil.css" rel="stylesheet"/>
+</head>
+
+<body>
+    <div layout:fragment="corpo">
+        <section class="layout-content">
+            <div class="container-md">
+                <div th:replace="~{fragments/alert :: alert}"></div>
+
+                <div class="row">
+                    <div class="col-2"></div>
+                    <div class="col-8">
+                        <img class="profile" th:if="${user.pathFoto != null}"
+                            th:src="@{${user.pathFoto}}" width="200px" height="200px" />
+                        <img class="profile" th:unless="${user.pathFoto != null}" src="/img/profile_doctor.png"
+                            width="200px" height="200px" />
+                    </div>
+                    <div class="col-2"></div>
+                </div>
+                <div class="row">
+                    <div class="col"></div>
+                    <div class="col-6">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item" th:text="'CPF: ' + ${user.cpf}">12345678901</li>
+                            <li class="list-group-item" th:text="${user.nome}">João Aguiar</li>
+                            <li class="list-group-item" th:text="'Email: ' + ${user.email}">Email: 111111111
+                            </li>
+                            <li class="list-group-item" th:text="'Registro: ' + ${user.registro}">Registro:
+                                AAA/UF
+                                111111111</li>
+
+                            <li class="list-group-item row">
+                                <div class="col">
+                                    <a th:href="@{/profissionais/editar/{cpf} (cpf=${user.cpf})}"
+                                        role="button">Editar perfil</a>
+                                </div>
+                                <div class="col">
+                                    <a th:href="@{/profissionais/excluir/{cpf} (cpf=${user.cpf})}" role="button"
+                                        data-toggle="modal" class="text-danger" data-target="#myModal">
+                                        Excluir perfil
+                                    </a>
+                                </div>
+                            </li>
+
+                        </ul>
+                    </div>
+                    <div class="col"></div>
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+
+</html>
