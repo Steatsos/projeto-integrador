@@ -5,13 +5,13 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.3.6</version>
+		<version>3.5.16</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>br.edu.ifsp</groupId>
-	<artifactId>chsp-via</artifactId>
+	<artifactId>chsp</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>chsp-v3</name>
+	<name>chsp</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
 	<licenses>
@@ -71,7 +71,7 @@
 
 		<dependency>
 			<groupId>org.thymeleaf.extras</groupId>
-			<artifactId>thymeleaf-extras-springsecurity5</artifactId>
+			<artifactId>thymeleaf-extras-springsecurity6</artifactId>
 			<version>3.1.1.RELEASE</version>
 		</dependency>
 
