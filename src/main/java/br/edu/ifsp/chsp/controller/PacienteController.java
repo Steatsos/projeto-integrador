@@ -6,9 +6,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,16 +23,20 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import br.edu.ifsp.chsp.model.dao.PacienteDAO;
 import br.edu.ifsp.chsp.model.dao.ProfissionalDAO;
 import br.edu.ifsp.chsp.model.domain.Paciente;
-import br.edu.ifsp.chsp.model.domain.Usuario;
 
 @Controller
 @RequestMapping("/pacientes")
 public class PacienteController {
 
-    @Autowired
-    private PacienteDAO pdao;
-    @Autowired
-    private ProfissionalDAO prodao;
+    private final PacienteDAO pdao;
+    private final ProfissionalDAO prodao;
+    private final PasswordEncoder passwordEncoder;
+
+    PacienteController(PacienteDAO pdao, ProfissionalDAO prodao, PasswordEncoder passwordEncoder) {
+        this.pdao = pdao;
+        this.prodao = prodao;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @GetMapping("/cadastrar")
     public String cadastrar(ModelMap map) {
@@ -73,23 +77,26 @@ public class PacienteController {
                     "O CPF que você digitou é o mesmo de um profissional. Portanto, o nome que você inseriu não foi salvo.");
             return ("redirect:/home");
         } else {
+            paciente.setSenha(passwordEncoder.encode(paciente.getSenha()));
             pdao.save(paciente);
             attr.addFlashAttribute("success", "Seu perfil foi criado com sucesso!");
             return ("redirect:/home");
         }
     }
 
+    /*
     @GetMapping("/listar")
     public String listar(ModelMap map) {
         map.addAttribute("pacientes", pdao.findAll());
         return ("/paciente/lista");
     }
+    */
 
     @PostMapping("/editar")
     public String alterar(Paciente paciente, RedirectAttributes attr) {
         pdao.save(paciente);
         attr.addFlashAttribute("success", "Seu perfil foi editado!");
-        return ("redirect:/pacientes/perfil/" + paciente.getCpf());
+        return ("redirect:/pacientes/perfil");
     }
 
     @GetMapping("/editar/{cpf}")
@@ -102,11 +109,11 @@ public class PacienteController {
     public String excluir(@PathVariable("cpf") String cpf, RedirectAttributes attr) {
         if (pdao.getReferenceById(cpf).getConsultas().isEmpty()) {
             pdao.deleteById(cpf);
-            attr.addAttribute("success", "Paciente excluído.");
-            return ("/home");
+            attr.addFlashAttribute("success", "Paciente excluído.");
+            return ("redirect:/home");
         } else {
-            attr.addAttribute("fail", "Paciente não pode ser excluído. Possui consultas!");
-            return ("redirect:/pacientes/perfil/" + cpf);
+            attr.addFlashAttribute("fail", "Paciente não pode ser excluído. Possui consultas!");
+            return ("redirect:/pacientes/perfil");
         }
     }
 
@@ -136,7 +143,7 @@ public class PacienteController {
         return nome;
     }
 
-    @ModelAttribute("user")
+    /*@ModelAttribute("user")
     public Usuario getAuthenticatedUser() {
         String username = getUsername();
         if (username != null) {
@@ -147,5 +154,5 @@ public class PacienteController {
             return pdao.buscarPorCpf(username);
         }
         return null;
-    }
+    }*/
 }

@@ -1,6 +1,5 @@
 package br.edu.ifsp.chsp.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -16,11 +15,14 @@ import br.edu.ifsp.chsp.model.domain.Usuario;
 @Controller
 public class Hospital {
 
-    @Autowired
-    PacienteDAO pacdao;
+    final PacienteDAO pacdao;
 
-    @Autowired
-    ProfissionalDAO prodao;
+    final ProfissionalDAO prodao;
+
+    Hospital(PacienteDAO pacdao, ProfissionalDAO prodao) {
+        this.pacdao = pacdao;
+        this.prodao = prodao;
+    }
 
     @GetMapping("/home")
     public String principal(ModelMap map) {
@@ -34,7 +36,7 @@ public class Hospital {
         return "/home";
     }
 
-    @GetMapping(name = "/")
+    @GetMapping(value = "/")
     public String home() {
         return "/home";
     }

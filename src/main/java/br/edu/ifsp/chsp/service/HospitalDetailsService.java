@@ -1,6 +1,5 @@
 package br.edu.ifsp.chsp.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -17,10 +16,13 @@ import br.edu.ifsp.chsp.model.domain.Profissional;
 @Service
 public class HospitalDetailsService implements UserDetailsService {
 
-    @Autowired
-    private PacienteDAO pacdao;
-    @Autowired
-    private ProfissionalDAO prodao;
+    private final PacienteDAO pacdao;
+    private final ProfissionalDAO prodao;
+
+    HospitalDetailsService(PacienteDAO pacdao, ProfissionalDAO prodao) {
+        this.pacdao = pacdao;
+        this.prodao = prodao;
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

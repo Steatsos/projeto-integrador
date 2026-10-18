@@ -5,9 +5,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,19 +21,23 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.edu.ifsp.chsp.model.dao.PacienteDAO;
 import br.edu.ifsp.chsp.model.dao.ProfissionalDAO;
-import br.edu.ifsp.chsp.model.domain.Paciente;
 import br.edu.ifsp.chsp.model.domain.Profissional;
-import br.edu.ifsp.chsp.model.domain.Usuario;
 
 @Controller
 @RequestMapping("/profissionais")
 public class ProfissionalController {
 
-    @Autowired
-    private ProfissionalDAO pdao;
+    private final ProfissionalDAO pdao;
 
-    @Autowired
-    private PacienteDAO pacdao;
+    private final PacienteDAO pacdao;
+
+    private final PasswordEncoder passwordEncoder;
+
+    ProfissionalController(ProfissionalDAO pdao, PacienteDAO pacdao, PasswordEncoder passwordEncoder) {
+        this.pdao = pdao;
+        this.pacdao = pacdao;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @GetMapping("/cadastrar")
     public String cadastrar(ModelMap map) {
@@ -50,6 +54,8 @@ public class ProfissionalController {
             attr.addFlashAttribute("fail", "Já existe um profissional cadastrado com este CPF!");
             return ("redirect:/profissionais/cadastrar");
         }
+        String registro = cod + "/" + uf + reg;
+        profissional.setRegistro(registro);
         if (pdao.jaExisteRegistro(profissional.getRegistro())) {
             attr.addFlashAttribute("fail", "Já existe um profissional cadastrado com este registro!");
             return ("redirect:/profissionais/cadastrar");
@@ -68,6 +74,7 @@ public class ProfissionalController {
         }
         if ("".equals(uf)) {
             attr.addFlashAttribute("fail", "Selecione um estado (UF).");
+            return ("redirect:/profissionais/cadastrar");
         }
         if ("Médico".equals(prof) && !"CRM".equals(cod) || "Psicólogo".equals(prof) && !"CRP".equals(cod)
                 || "Dentista".equals(prof) && !"CRO".equals(cod)) {
@@ -87,14 +94,14 @@ public class ProfissionalController {
                 return "/profissional/cadastro";
             }
         }
-        String registro = cod + "/" + uf + reg;
-        profissional.setRegistro(registro);
+        
         if (pacdao.jaExisteCpf(profissional.getCpf())) {
             profissional.setNome(pacdao.buscarPorCpf(profissional.getCpf()).getNome());
             pdao.save(profissional);
             attr.addFlashAttribute("success", "O CPF que você digitou é o mesmo de um paciente. Portanto, o nome que você inseriu não foi salvo.");
             return ("redirect:/home");
         } else {
+            profissional.setSenha(passwordEncoder.encode(profissional.getSenha()));
             pdao.save(profissional);
             attr.addFlashAttribute("success", "Sua conta foi cadastrada!");
             return ("redirect:/home");
@@ -124,11 +131,11 @@ public class ProfissionalController {
     public String excluir(@PathVariable("cpf") String cpf, RedirectAttributes attr) {
         if (pdao.getReferenceById(cpf).getConsultas().isEmpty()) {
             pdao.deleteById(cpf);
-            attr.addAttribute("success", "Seu perfil profissional foi excluído.");
+            attr.addFlashAttribute("success", "Seu perfil profissional foi excluído.");
             return ("redirect:/home");
         } else {
-            attr.addAttribute("fail", "Profissional não pode ser excluído. Possui consultas!");
-            return ("redirect:/profissionais/perfil/" + cpf);
+            attr.addFlashAttribute("fail", "Profissional não pode ser excluído. Possui consultas!");
+            return ("redirect:/profissionais/perfil");
         }
     }
 
@@ -165,7 +172,7 @@ public class ProfissionalController {
         return nome;
     }
 
-    @ModelAttribute("user")
+    /*@ModelAttribute("user")
     public Usuario getAuthenticatedUser() {
         String username = getUsername();
         if (username != null) {
@@ -176,7 +183,7 @@ public class ProfissionalController {
             return pdao.buscarPorCpf(username);
         }
         return null;
-    }
+    }*/
 }
 
 /*

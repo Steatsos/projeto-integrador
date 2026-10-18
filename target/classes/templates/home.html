@@ -5,7 +5,7 @@
 <head>
   <title>Clínica Hospitalar de São Paulo</title>
   <meta charset="UTF-8" />
-  <link href="/css/home.css" rel="stylesheet" />
+  <link rel="stylesheet" th:href="@{/css/home.css}"/>
 </head>
 
 <body>
@@ -54,7 +54,7 @@
       </div>
       <div class="container2">
         <div class="card" style="width: 18rem;">
-          <img src="https://ariumsaude.com.br/wp-content/uploads/2021/04/Cardiologia_iStock-530199842.jpg"
+          <img th:src="@{/img/cardio.jpg}"
             class="card-img-top" alt="Cardiologia" >
           <div class="card-body">
             <p class="card-text">A cardiologia é a especialidade médica que cuida do diagnóstico, tratamento e prevenção
@@ -65,7 +65,7 @@
           </div>
         </div>
         <div class="card" style="width: 18rem;">
-          <img src="https://hospitalsantajulia.com.br/wp-content/uploads/2021/07/procurar-um-medico-neurologista-1.jpg"
+          <img th:src="@{/img/neuro.jpg}"
             class="card-img-top" alt="neurologia" height="265px">
           <div class="card-body">
             <p class="card-text">A neurologia é a especialidade médica que trata das doenças do sistema nervoso,
@@ -75,7 +75,7 @@
           </div>
         </div>
         <div class="card" style="width: 18rem;">
-          <img src="https://hcxfmusp.org.br/portal/online/wp-content/uploads/sites/2/2023/11/Pediatria.jpg"
+          <img th:src="@{/img/pediatria.jpg}"
             class="card-img-top" alt="pediatria" >
           <div class="card-body">
             <p class="card-text">A pediatria é a especialidade médica que se concentra no cuidado da saúde de crianças e

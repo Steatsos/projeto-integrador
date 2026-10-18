@@ -9,7 +9,7 @@
 
 <body>
     <header th:fragment="cabecalho">
-        <a class="navbar-brand float-start" href="#"><img src="img/IGUEA.png" height="130px"></a>
+        <a class="navbar-brand float-start" href="#"><img th:src="@{/img/IGUEA.png}" height="130px"></a>
         <nav class="navbar navbar-expand-lg">
             <div class="container-fluid">
                 <a class="nav-link" aria-current="page" href="/.">Página Inicial</a>
@@ -44,16 +44,16 @@
                     </ul>
                 </div>
                 <div th:if="${username == null}" class="nav-item ms-auto p-3">
-                    <a class="css-btn azul" href="@{/login}">Login</a>
+                    <a class="css-btn azul" th:href="@{/login}">Login</a>
                 </div>
                 <div th:if="${username != null}" class="nav-item ms-auto p-3 d-flex">
                     <a class="p-2" th:if="${user.getClass().getSimpleName() == 'Paciente'}" href="/pacientes/perfil">
                         <img class="profile" th:if="${user.pathFoto != null}" width="50px" height="50px" th:src="@{${user.pathFoto}}">
-                        <img class="profile" th:unless="${user.pathFoto != null}" width="50px" height="50px" src="/img/profile_default.png">
+                        <img class="profile" th:unless="${user.pathFoto != null}" width="50px" height="50px" th:src="@{/img/profile_default.png}">
                     </a>
                     <a class="p-2" th:unless="${user.getClass().getSimpleName() == 'Paciente'}" href="/profissionais/perfil">
                         <img class="profile" th:if="${user.pathFoto != null}" width="50px" height="50px" th:src="@{${user.pathFoto}}">
-                        <img class="profile" th:unless="${user.pathFoto != null}" width="50px" height="50px" src="/img/profile_doctor.png">
+                        <img class="profile" th:unless="${user.pathFoto != null}" width="50px" height="50px" th:src="@{/img/profile_doctor.png}">
                     </a>
                     <form th:action="@{/logout}" method="post">
                         <button type="submit" class="css-btn vermelho">Logout</a>

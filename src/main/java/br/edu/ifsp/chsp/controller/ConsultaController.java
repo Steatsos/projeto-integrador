@@ -5,7 +5,6 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -31,14 +30,17 @@ import br.edu.ifsp.chsp.model.domain.Usuario;
 @RequestMapping("/consultas")
 public class ConsultaController {
 
-    @Autowired
-    private ConsultaDAO cdao;
+    private final ConsultaDAO cdao;
 
-    @Autowired
-    private ProfissionalDAO pdao;
+    private final ProfissionalDAO pdao;
 
-    @Autowired
-    private PacienteDAO pacdao;
+    private final PacienteDAO pacdao;
+
+    ConsultaController(ConsultaDAO cdao, ProfissionalDAO pdao, PacienteDAO pacdao) {
+        this.cdao = cdao;
+        this.pdao = pdao;
+        this.pacdao = pacdao;
+    }
 
     @GetMapping("/cadastrar")
     public String cadastrar(ModelMap map, RedirectAttributes attr) {
@@ -83,7 +85,7 @@ public class ConsultaController {
             attr.addFlashAttribute("fail", "Já existe uma consulta com este id!");
             return ("redirect:/consultas/cadastrar");
         }
-        if (consulta.getPaciente().getCpf() == consulta.getProfissional().getCpf()) {
+        if (consulta.getPaciente().getCpf().equals(consulta.getProfissional().getCpf())) {
             attr.addFlashAttribute("fail",
                     "Você também é um profissional. Você não pode marcar uma consulta consigo mesmo!");
             return ("redirect:/consultas/cadastrar");
@@ -107,9 +109,9 @@ public class ConsultaController {
             Paciente pac = pacdao.buscarPorCpf(username);
             if (pac == null) {
                 Profissional pro = pdao.buscarPorCpf(username);
-                map.addAttribute("consultas", cdao.findByCPF(pro.getCpf()));
+                map.addAttribute("consultas", cdao.findByProCPF(pro.getCpf()));
             } else {
-                map.addAttribute("consultas", cdao.findByCPF(pac.getCpf()));
+                map.addAttribute("consultas", cdao.findByPacCPF(pac.getCpf()));
             }
         }
         return ("/consulta/lista");
@@ -159,7 +161,7 @@ public class ConsultaController {
     @GetMapping("/buscar/cpf")
     public String pesquisarPorCPF(@RequestParam(name = "cpf") String cpf,
             ModelMap map) {
-        map.addAttribute("consultas", cdao.findByCPF(cpf));
+        map.addAttribute("consultas", cdao.findByPacCPF(cpf));
         return ("/consulta/lista");
     }
 

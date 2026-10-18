@@ -22,7 +22,10 @@ public interface ConsultaDAO extends JpaRepository<Consulta, Integer> {
     public List<Consulta> findByDatahora(LocalDateTime inicio, LocalDateTime fim);
 
     @Query(value = "select c from Consulta c where c.paciente.cpf = ?1")
-    public List<Consulta> findByCPF(String cpf);
+    public List<Consulta> findByPacCPF(String cpf);
+
+    @Query(value = "select c from Consulta c where c.profissional.cpf = ?1")
+    public List<Consulta> findByProCPF(String cpf);
 
     @Transactional
     @Modifying
